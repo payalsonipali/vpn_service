@@ -6,25 +6,33 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class LogAdapter(private val logEntries: List<String>) :
-    RecyclerView.Adapter<LogAdapter.LogViewHolder>() {
+class LogAdapter : RecyclerView.Adapter<LogAdapter.UrlViewHolder>() {
 
-    class LogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val logTextView: TextView = itemView.findViewById(R.id.textview)
+    private val urls: MutableList<String> = mutableListOf()
+
+    fun addUrl(url: String) {
+        urls.add(url)
+        notifyItemInserted(urls.size - 1)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_main, parent, false)
-        return LogViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UrlViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
+        return UrlViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: LogViewHolder, position: Int) {
-//        val logEntry = logEntries[position]
-        holder.logTextView.text = logEntries[position]
+    override fun onBindViewHolder(holder: UrlViewHolder, position: Int) {
+        holder.bind(urls[position])
     }
 
     override fun getItemCount(): Int {
-        return logEntries.size
+        return urls.size
+    }
+
+    class UrlViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val urlTextView: TextView = itemView.findViewById(R.id.urlTextView)
+
+        fun bind(url: String) {
+            urlTextView.text = url
+        }
     }
 }
