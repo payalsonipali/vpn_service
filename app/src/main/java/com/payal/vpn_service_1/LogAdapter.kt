@@ -1,10 +1,11 @@
-package com.payal.vpn_service_1
+package com.example.destinationapp
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.payal.vpn_service_1.R
 
 class LogAdapter : RecyclerView.Adapter<LogAdapter.UrlViewHolder>() {
 
@@ -36,3 +37,4 @@ class LogAdapter : RecyclerView.Adapter<LogAdapter.UrlViewHolder>() {
         }
     }
 }
+

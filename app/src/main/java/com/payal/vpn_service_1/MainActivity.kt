@@ -1,4 +1,4 @@
-package com.payal.vpn_service_1
+package com.example.destinationapp
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,19 +9,23 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.payal.vpn_service_1.R
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     lateinit var adapter: LogAdapter
+    val ACTION_LOG_URL = "com.example.ACTION_LOG_URL"
+    val EXTRA_URL = "extra_url"
+
 
     private val urlReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action != null && intent.action!! == UrlLogger.ACTION_LOG_URL) {
+            if (intent.action != null && intent.action!! == ACTION_LOG_URL) {
                 // Extract the URL from the intent
-                val url = intent.getStringExtra(UrlLogger.EXTRA_URL)
-                Log.d("taggg", "log called : $url")
-                // Add the URL to the adapter
+                val url = intent.getStringExtra(EXTRA_URL)
+                Log.d("taggg", "log called here : $url")
+                // Display the received URL
                 if (url != null) {
                     adapter.addUrl(url)
                 }
@@ -34,17 +38,17 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
+
         adapter = LogAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Register the URL receiver
-        val filter = IntentFilter(UrlLogger.ACTION_LOG_URL)
+        //required to show logs in recycler view
+        val filter = IntentFilter(ACTION_LOG_URL)
         registerReceiver(urlReceiver, filter)
     }
 
     override fun onDestroy() {
-        // Unregister the URL receiver to avoid memory leaks
         unregisterReceiver(urlReceiver)
         super.onDestroy()
     }
