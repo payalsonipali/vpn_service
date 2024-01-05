@@ -9,10 +9,7 @@ object UrlLogger {
     const val EXTRA_URL = "extra_url"
 
     fun logUrl(context: Context, url: String) {
-        // Log the URL
         Log.d("UrlLogger", "URL Logged: $url")
-
-        // Send broadcast to notify the destination app about the logged URL
         sendUrlBroadcast(context, url)
     }
 
@@ -22,7 +19,6 @@ object UrlLogger {
         intent.putExtra(EXTRA_URL, url)
         // Replace with the package name of the destination app
         intent.`package` = "com.payal.vpn_service_1"
-        // Send the broadcast using the provided context
         context.sendBroadcast(intent)
     }
 }
